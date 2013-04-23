@@ -77,6 +77,14 @@ public class TuringMachine{
     {
 	System.out.println(tape.printTape());
     }
+    public void printTape(JTable t)
+    {
+	for ( int col = 0; col < tm.getColumnCount(); col++)
+	    {
+		tm.setValueAt(0,0,col);
+	    }
+    }
+
     public void moveHeaderRight()
     {
 	tape.moveRight();
