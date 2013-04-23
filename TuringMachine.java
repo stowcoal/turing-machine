@@ -2,6 +2,8 @@ import java.io.FileReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.BufferedReader;
+import javax.swing.table.*;
+import javax.swing.*;
 
 public class TuringMachine{
     private Tape tape;
@@ -45,9 +47,6 @@ public class TuringMachine{
     {
 	Configuration c = configs.getConfiguration(state, read());
 	printTape();
-	//	c.printConfigDetails();
-	//	System.out.println(state);
-	//	System.out.println(tape.getHeader().readSymbol());
 	write( c.symbolToWrite() );
 	if ( c.moveDirection() == 'r' )
 	    moveHeaderRight();
@@ -56,6 +55,19 @@ public class TuringMachine{
 	else 
 	    System.out.println("invalid direction");
 	state = c.nextConfiguration();
+    }
+    public void nextStep(JTable t)
+    {
+	Configuration c = configs.getConfiguration(state, read());
+	write( c.symbolToWrite() );
+	if ( c.moveDirection() == 'r' )
+	    moveHeaderRight();
+	else if ( c.moveDirection() == 'l' )
+	    moveHeaderLeft();
+	else 
+	    System.out.println("invalid direction");
+	state = c.nextConfiguration();
+	printTape(t);
     }
     public void addConfiguration(Configuration c)
     {
@@ -79,10 +91,7 @@ public class TuringMachine{
     }
     public void printTape(JTable t)
     {
-	for ( int col = 0; col < tm.getColumnCount(); col++)
-	    {
-		tm.setValueAt(0,0,col);
-	    }
+	tape.printTape(t);
     }
 
     public void moveHeaderRight()

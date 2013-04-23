@@ -1,3 +1,7 @@
+import java.awt.*;
+import javax.swing.table.*;
+import javax.swing.*;
+
 public class Tape
 {
     private Section front;
@@ -95,6 +99,23 @@ public class Tape
 	    }
 	returnString += readSection.readSymbol();
 	return returnString;
+    }
+    public void printTape(JTable t)
+    {
+	TableModel tm = t.getModel();
+	Section headerSave = header;
+	for ( int pos = 10; pos >= 0; pos-- )
+	    {
+		tm.setValueAt(header.readSymbol(), 0, pos);
+		moveLeft();
+	    }
+	header = headerSave;
+	for (int pos = 11; pos < 20; pos++ )
+	    {
+		tm.setValueAt(header.readSymbol(), 0, pos);
+		moveRight();
+	    }
+	header = headerSave;
     }
     public Section getHeader()
     {
