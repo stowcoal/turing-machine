@@ -110,6 +110,7 @@ public class Tape
 		moveLeft();
 	    }
 	header = headerSave;
+	moveRight();
 	for (int pos = 11; pos < 20; pos++ )
 	    {
 		tm.setValueAt(header.readSymbol(), 0, pos);

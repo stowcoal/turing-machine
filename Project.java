@@ -26,25 +26,35 @@ public class Project
 	TableModel tapeModel = tape.getModel();
 	machine.printTape(tape);
 	content.add(tape);
-	content.add(new JLabel("\n"));
+	JLabel stateLabel = new JLabel("q0");
+	content.add(stateLabel);
 	JButton buttonStep = new JButton("Step");
-	buttonStep.addActionListener(new StepButtonListener(machine, tape));
+	buttonStep.addActionListener(new StepButtonListener(machine, tape, buttonStep, stateLabel));
 	content.add(buttonStep);
 	f.setVisible(true);
 	
     }
     private static class StepButtonListener implements ActionListener
     {
-	private TuringMachine m;
-	private JTable t;
-	public StepButtonListener(TuringMachine machine, JTable tape)
+	private TuringMachine machine;
+	private JTable tape;
+	private JButton stepButton;
+	private JLabel stateLabel;
+	public StepButtonListener(TuringMachine m, JTable t, JButton b, JLabel l)
 	{
-	    this.m = machine;
-	    this.t = tape;
+	    this.machine = m;
+	    this.tape = t;
+	    this.stepButton = b;
+	    this.stateLabel = l;
 	}
 	public void actionPerformed(ActionEvent e)
 	{
-	    m.nextStep(t);
+	    machine.nextStep(tape);
+	    stateLabel.setText(machine.getState());
+	    if (machine.getState().equals("qf"))
+		{
+		    stepButton.setEnabled(false);
+		}
 	}
     }
     private static class CustomRenderer extends DefaultTableCellRenderer 
@@ -52,7 +62,7 @@ public class Project
 	public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column)
 	{
 	    
-	    if(column == 11)
+	    if(column == 10)
 		{
 		    Component c = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
 		    c.setBackground(Color.gray);
