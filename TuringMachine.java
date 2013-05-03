@@ -59,7 +59,6 @@ public class TuringMachine{
     public void nextStep(JTable t)
     {
 	Configuration c = configs.getConfiguration(state, read());
-	System.out.println( read() );
 	write( c.symbolToWrite() );
 	if ( c.moveDirection() == 'r' )
 	    moveHeaderRight();
@@ -69,7 +68,6 @@ public class TuringMachine{
 	    System.out.println("invalid direction");
 	state = c.nextConfiguration();
 	printTape(t);
-
     }
     public void addConfiguration(Configuration c)
     {
