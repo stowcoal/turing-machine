@@ -73,6 +73,10 @@ public class TuringMachine{
     {
 	configs.addConfiguration(c);
     }
+    public void printConfigurationTable(JTable t)
+    {
+	configs.printConfigurations(t);
+    }
     public void run(String finalState)
     {
 	while( !state.equals(finalState) )

@@ -1,3 +1,6 @@
+import javax.swing.*;
+import javax.swing.table.*;
+
 public class Configuration
 {
     private String startConfig;
@@ -38,6 +41,10 @@ public class Configuration
     {
 	String stringToPrint = startConfig + ", " + readSymbol + ", " + direction + ", " + writeSymbol + ", " + finalConfig;
 	System.out.println(stringToPrint);
+    }
+    public void printConfigDetails(JTable t)
+    {
+	//	t.getModel().addRow(new Object[]{startConfig, readSymbol, direction, writeSymbol, finalConfig});
     }
     public char moveDirection()
     {

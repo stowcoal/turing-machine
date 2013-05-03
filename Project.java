@@ -11,11 +11,11 @@ public class Project
     public static void main(String args[])
     {
 	
-	TuringMachine machine = new TuringMachine("111011");
+	TuringMachine machine = new TuringMachine("11110111111");
 	JTable tape = new JTable(1,20);
-	tape.setDefaultRenderer(Object.class, new CustomRenderer());
+	tape.setDefaultRenderer(Object.class, new TapeRenderer());
 	JFrame f = new JFrame("Turing Machine");
-        f.setSize(410, 150);
+        f.setSize(415, 150);
         Container content = f.getContentPane();
         content.setBackground(Color.white);
         content.setLayout(new FlowLayout());
@@ -44,6 +44,26 @@ public class Project
 	content.add(buttonWriteCell);
       	buttonStep.addActionListener(new StepButtonListener(machine, tape, buttonStep, stateLabel, backButton, forwardButton));
 	content.add(buttonStep);
+	DefaultTableModel instructionTableModel = new DefaultTableModel();
+	JTable instructionTable = new JTable(instructionTableModel);
+	
+	
+	instructionTableModel.addColumn("Start State");
+	instructionTableModel.addColumn("Read Symbol");
+	instructionTableModel.addColumn("Direction");
+	instructionTableModel.addColumn("Write Symbol");
+	instructionTableModel.addColumn("End State");
+	instructionTableModel.addRow(new Object[]{"Start State", "Read Symbol", "Direction", "Write Symbol", "End State"});
+	TableColumnModel instructionTCM = instructionTable.getColumnModel();
+	for ( int col = 0; col < instructionTable.getColumnCount(); col++ )
+	    {
+		String header = (String)instructionTableModel.getValueAt(0, col);
+		instructionTCM.getColumn(col).setPreferredWidth(8*header.length());
+	    }
+	
+	
+	instructionTable.setDefaultRenderer(Object.class, new InstructionTableRenderer());
+	content.add(instructionTable);
 	f.setVisible(true);
 	
     }
@@ -61,8 +81,16 @@ public class Project
 	}
 	public void actionPerformed(ActionEvent e)
 	{
-	    machine.write(cellWrite.getText().charAt(0));
-	    machine.printTape(tape);
+	    if (cellWrite.getText().equals(""))
+		{
+		    machine.write('*');
+		    machine.printTape(tape);
+		}
+	    else
+		{
+		    machine.write(cellWrite.getText().charAt(0));
+		    machine.printTape(tape);
+		}
      	}
     }
     
@@ -130,7 +158,7 @@ public class Project
 		}
 	}
     }
-    private static class CustomRenderer extends DefaultTableCellRenderer 
+    private static class TapeRenderer extends DefaultTableCellRenderer 
     {
 	public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column)
 	{
@@ -150,4 +178,25 @@ public class Project
 
 	}
     }
+    private static class InstructionTableRenderer extends DefaultTableCellRenderer 
+    {
+	public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column)
+	{
+	    
+	    if(row == 0)
+		{
+		    Component c = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+		    c.setBackground(Color.gray);
+		    return c;
+		}
+	    else
+		{
+		    Component c = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+		    c.setBackground(Color.white);
+		    return c;
+		}
+
+	}
+    }
+
 }

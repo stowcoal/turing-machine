@@ -1,5 +1,8 @@
 import java.util.Vector;
 import java.util.Enumeration;
+import javax.swing.*;
+import javax.swing.table.*;
+
 public class ConfigurationTable
 {
     private Vector table;
@@ -39,4 +42,13 @@ public class ConfigurationTable
 		((Configuration)e.nextElement()).printConfigDetails();
 	    }
     }
+    public void printConfigurations(JTable t)
+    {
+	Enumeration e = table.elements();
+	while (e.hasMoreElements())
+	    {
+		((Configuration)e.nextElement()).printConfigDetails(t);
+	    }
+    }
+
 }
